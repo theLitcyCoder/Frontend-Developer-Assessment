@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 interface Product {
@@ -13,9 +13,10 @@ interface Product {
   styleUrls: ['./product-list.component.css'],
 })
 export class ProductListComponent implements OnInit {
-  products: any[] = [];
+  products: Product[] = [];
+  displayedColumns: string[] = ['id', 'title', 'description']; // Add more column names as needed
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private elementRef: ElementRef) {}
 
   ngOnInit(): void {
     this.http.get<any>('https://dummyjson.com/products').subscribe(
