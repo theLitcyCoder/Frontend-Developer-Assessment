@@ -28,7 +28,7 @@ export class ProductListComponent implements OnInit {
   pageSize = 5;
 
   constructor(private http: HttpClient) {
-    this.sortedData = this.displayedProducts.slice();
+    this.sortedData = this.products.slice();
   }
 
   ngOnInit(): void {
@@ -36,6 +36,7 @@ export class ProductListComponent implements OnInit {
       (response) => {
         this.products = response.products;
         this.totalItems = this.products.length;
+        this.sortedData = this.products.slice();
         this.updateDisplayedProducts();
         console.log(response.products);
       },
@@ -45,8 +46,9 @@ export class ProductListComponent implements OnInit {
     );
   }
 
+  // sort the cards based on sorting categories
   sortData(sort: Sort) {
-    const data = this.displayedProducts.slice();
+    const data = this.products.slice();
     if (!sort.active || sort.direction === '') {
       this.sortedData = data;
       return;
@@ -67,16 +69,19 @@ export class ProductListComponent implements OnInit {
           return 0;
       }
     });
+    this.updateDisplayedProducts();
   }
 
+  // updates the information on the cards when displayed
   updateDisplayedProducts(): void {
     const startIndex = (this.currentPage - 1) * this.pageSize;
-    this.displayedProducts = this.products.slice(
+    this.displayedProducts = this.sortedData.slice(
       startIndex,
       startIndex + this.pageSize
     );
   }
 
+  // displays the next set of cards based on number of items to be shown
   onPageChange(event: PageEvent): void {
     this.currentPage = event.pageIndex + 1;
     this.pageSize = event.pageSize;

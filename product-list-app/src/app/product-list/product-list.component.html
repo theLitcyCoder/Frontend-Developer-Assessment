@@ -1,4 +1,5 @@
 <h1>Product List</h1>
+
 <!-- <ul>
   <li *ngFor="let product of products">
     ID: {{ product.id }} - Title: {{ product.title }} - Description:
@@ -21,7 +22,7 @@
   </li>
 </ul> -->
 
-<!-- <mat-chip-listbox
+<mat-chip-listbox
   aria-label="Product selection"
   matSort
   (matSortChange)="sortData($event)"
@@ -30,15 +31,6 @@
   <mat-chip-option mat-sort-header="category">Category</mat-chip-option>
   <mat-chip-option mat-sort-header="stock">Stock</mat-chip-option>
   <mat-chip-option mat-sort-header="price">Price</mat-chip-option>
-</mat-chip-listbox> -->
-<mat-chip-listbox class="mat-mdc-chip-set-stacked" aria-label="Color selection">
-  <mat-chip-option
-    *ngFor="let chip of availableColors"
-    selected
-    [color]="chip.color"
-  >
-    {{ chip.name }}
-  </mat-chip-option>
 </mat-chip-listbox>
 
 <div class="list">
