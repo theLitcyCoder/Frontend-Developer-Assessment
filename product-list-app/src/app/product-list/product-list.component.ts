@@ -29,11 +29,12 @@ export class ProductListComponent implements OnInit {
   displayedColumns: string[] = ['id', 'title', 'description']; // Add more column names as needed
   displayedProducts: Product[] = [];
   sortedData: Product[] = [];
+  filteredProducts: Product[] = [];
   totalItems: number = 0;
   currentPage = 1;
   pageSize = 8;
   selectedChip!: string;
-  value = 'Clear me';
+  value = '';
 
   constructor(private http: HttpClient) {
     this.sortedData = this.products.slice();
@@ -45,6 +46,7 @@ export class ProductListComponent implements OnInit {
         this.products = response.products;
         this.totalItems = this.products.length;
         this.sortedData = this.products.slice();
+        this.searchProducts();
         this.updateDisplayedProducts();
         console.log(response.products);
       },
@@ -59,8 +61,16 @@ export class ProductListComponent implements OnInit {
     const data = this.products.slice();
     if (!sort.active || sort.direction === '') {
       this.sortedData = data;
+      // this.selectedChip = '';
       return;
     }
+
+    this.selectedChip = sort.active;
+
+    // this.sortedData = data.sort((a, b) => {
+    //   const isAsc = sort.direction === 'asc';
+    //   return compare((a as any)[sort.active], (b as any)[sort.active], isAsc);
+    // });
 
     this.sortedData = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
@@ -80,10 +90,52 @@ export class ProductListComponent implements OnInit {
     this.updateDisplayedProducts();
   }
 
+  // search for a product
+  searchProducts(): void {
+    const query = this.value.toLowerCase().trim();
+
+    if (query === '') {
+      this.filteredProducts = this.products.slice();
+    } else {
+      this.filteredProducts = this.products.filter(
+        (product) =>
+          product.title.toLowerCase().includes(query) ||
+          product.description.toLowerCase().includes(query)
+      );
+    }
+
+    this.totalItems = this.filteredProducts.length;
+    this.sortedData = this.filteredProducts.slice();
+    this.updateDisplayedProducts();
+  }
+
   // updates the information on the cards when displayed
   updateDisplayedProducts(): void {
     const startIndex = (this.currentPage - 1) * this.pageSize;
-    this.displayedProducts = this.sortedData.slice(
+    const sortedData = this.sortedData.slice(); // Make a copy of the sortedData array
+
+    const sortedAndFilteredData = sortedData.filter((product) => {
+      // Apply your filtering logic here, e.g., check if the product matches the search criteria
+      return product.title.toLowerCase().includes(this.value.toLowerCase());
+    });
+
+    this.displayedProducts = sortedAndFilteredData.slice();
+
+    // Perform sorting on the displayedProducts array
+    this.displayedProducts.sort((a, b) => {
+      const isAsc = this.selectedChip === 'title' ? true : false;
+      return compare(
+        (a as any)[this.selectedChip],
+        (b as any)[this.selectedChip],
+        isAsc
+      );
+    });
+
+    // Update the totalItems based on the filtered and sorted data
+    this.totalItems = this.displayedProducts.length;
+
+    // Slice the displayedProducts array based on the current page and page size
+    this.displayedProducts = this.displayedProducts.slice(
       startIndex,
       startIndex + this.pageSize
     );
