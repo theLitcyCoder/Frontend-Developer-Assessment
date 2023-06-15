@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
+import { ThemePalette } from '@angular/material/core';
 
 interface Product {
   id: number;
@@ -11,6 +12,11 @@ interface Product {
   category: string;
   stock: string;
   price: number;
+}
+
+interface ChipColor {
+  name: string;
+  color: ThemePalette;
 }
 
 @Component({
@@ -25,7 +31,9 @@ export class ProductListComponent implements OnInit {
   sortedData: Product[] = [];
   totalItems: number = 0;
   currentPage = 1;
-  pageSize = 5;
+  pageSize = 8;
+  selectedChip!: string;
+  value = 'Clear me';
 
   constructor(private http: HttpClient) {
     this.sortedData = this.products.slice();
@@ -86,6 +94,10 @@ export class ProductListComponent implements OnInit {
     this.currentPage = event.pageIndex + 1;
     this.pageSize = event.pageSize;
     this.updateDisplayedProducts();
+  }
+
+  selectChip(chip: string) {
+    this.selectedChip = chip;
   }
 }
 

@@ -1,5 +1,3 @@
-<h1>Product List</h1>
-
 <!-- <ul>
   <li *ngFor="let product of products">
     ID: {{ product.id }} - Title: {{ product.title }} - Description:
@@ -22,16 +20,60 @@
   </li>
 </ul> -->
 
-<mat-chip-listbox
-  aria-label="Product selection"
-  matSort
-  (matSortChange)="sortData($event)"
->
-  <mat-chip-option mat-sort-header="title">Title</mat-chip-option>
-  <mat-chip-option mat-sort-header="category">Category</mat-chip-option>
-  <mat-chip-option mat-sort-header="stock">Stock</mat-chip-option>
-  <mat-chip-option mat-sort-header="price">Price</mat-chip-option>
-</mat-chip-listbox>
+<div class="card-arrangement">
+  <mat-chip-list
+    aria-label="Product selection"
+    matSort
+    (matSortChange)="sortData($event)"
+  >
+    <mat-chip
+      mat-sort-header="title"
+      [selected]="selectedChip === 'title'"
+      (click)="selectChip('title')"
+      >Title</mat-chip
+    >
+    <mat-chip
+      mat-sort-header="category"
+      [selected]="selectedChip === 'category'"
+      (click)="selectChip('category')"
+      >Category</mat-chip
+    >
+    <mat-chip
+      mat-sort-header="stock"
+      [selected]="selectedChip === 'stock'"
+      (click)="selectChip('stock')"
+      >Stock</mat-chip
+    >
+    <mat-chip
+      mat-sort-header="price"
+      [selected]="selectedChip === 'price'"
+      (click)="selectChip('price')"
+      >Price</mat-chip
+    >
+  </mat-chip-list>
+
+  <mat-form-field class="example-form-field">
+    <mat-label>Clearable input</mat-label>
+    <input matInput type="text" [(ngModel)]="value" />
+    <button
+      *ngIf="value"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="value = ''"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+    <mat-icon matSuffix>mode_edit</mat-icon>
+  </mat-form-field>
+
+  <mat-paginator
+    [length]="totalItems"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[8, 16, 24, 50]"
+    (page)="onPageChange($event)"
+  ></mat-paginator>
+</div>
 
 <div class="list">
   <mat-card class="product-card" *ngFor="let product of displayedProducts">
@@ -57,10 +99,3 @@
     </mat-card-actions>
   </mat-card>
 </div>
-
-<mat-paginator
-  [length]="totalItems"
-  [pageSize]="pageSize"
-  [pageSizeOptions]="[5, 10, 25, 50]"
-  (page)="onPageChange($event)"
-></mat-paginator>

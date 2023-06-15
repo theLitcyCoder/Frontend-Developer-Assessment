@@ -1,4 +1,7 @@
-@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+.selected-chip {
+  background-color: red; /* Replace with your desired color */
+  color: white; /* Replace with your desired text color */
+}
 
 .table-like-list {
   list-style: none;
@@ -21,9 +24,12 @@
   /* flex-basis: 22.25%;
   max-width: 400px;
   margin: 0 5px; */
-  width: 250px;
+  width: 265px;
   /* margin: 10px; */
   margin: 10px;
+}
+mat-card-title {
+  font-size: 1.2rem !important;
 }
 
 .list {
@@ -35,6 +41,13 @@
 
 .img {
   height: 20vh;
+  object-fit: cover;
+}
+
+::ng-deep .mat-sort-header-arrow {
+  color: white !important;
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 .lower-content {
@@ -42,6 +55,11 @@
   display: flex;
 }
 
+.card-arrangement {
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+}
 /* @media (max-width: 768px) {
   .product-card {
     width: 50%;
