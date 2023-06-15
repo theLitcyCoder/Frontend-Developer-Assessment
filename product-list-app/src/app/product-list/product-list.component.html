@@ -20,86 +20,93 @@
   </li>
 </ul> -->
 
-<div class="card-arrangement">
-  <mat-chip-list
-    aria-label="Product selection"
-    matSort
-    (matSortChange)="sortData($event)"
-  >
-    <mat-chip
-      mat-sort-header="title"
-      [selected]="selectedChip === 'title'"
-      (click)="selectChip('title')"
-      >Title</mat-chip
-    >
-    <mat-chip
-      mat-sort-header="category"
-      [selected]="selectedChip === 'category'"
-      (click)="selectChip('category')"
-      >Category</mat-chip
-    >
-    <mat-chip
-      mat-sort-header="stock"
-      [selected]="selectedChip === 'stock'"
-      (click)="selectChip('stock')"
-      >Stock</mat-chip
-    >
-    <mat-chip
-      mat-sort-header="price"
-      [selected]="selectedChip === 'price'"
-      (click)="selectChip('price')"
-      >Price</mat-chip
-    >
-  </mat-chip-list>
+<mat-tab-group>
+  <mat-tab label="First">
+    Content 1
+    <div class="card-arrangement">
+      <mat-chip-list
+        aria-label="Product selection"
+        matSort
+        (matSortChange)="sortData($event)"
+      >
+        <mat-chip
+          mat-sort-header="title"
+          [selected]="selectedChip === 'title'"
+          (click)="selectChip('title')"
+          >Title</mat-chip
+        >
+        <mat-chip
+          mat-sort-header="category"
+          [selected]="selectedChip === 'category'"
+          (click)="selectChip('category')"
+          >Category</mat-chip
+        >
+        <mat-chip
+          mat-sort-header="stock"
+          [selected]="selectedChip === 'stock'"
+          (click)="selectChip('stock')"
+          >Stock</mat-chip
+        >
+        <mat-chip
+          mat-sort-header="price"
+          [selected]="selectedChip === 'price'"
+          (click)="selectChip('price')"
+          >Price</mat-chip
+        >
+      </mat-chip-list>
 
-  <mat-form-field class="example-form-field">
-    <mat-label>Search...</mat-label>
-    <input
-      matInput
-      type="text"
-      [(ngModel)]="value"
-      (ngModelChange)="searchProducts()"
-    />
-    <button
-      *ngIf="value"
-      matSuffix
-      mat-icon-button
-      aria-label="Clear"
-      (click)="value = ''"
-    >
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>
+      <mat-form-field class="example-form-field">
+        <mat-label>Search...</mat-label>
+        <input
+          matInput
+          type="text"
+          [(ngModel)]="value"
+          (ngModelChange)="searchProducts()"
+        />
+        <button
+          *ngIf="value"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="value = ''"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
 
-  <mat-paginator
-    [length]="totalItems"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="[8, 16, 24, 50]"
-    (page)="onPageChange($event)"
-  ></mat-paginator>
-</div>
+      <mat-paginator
+        [length]="totalItems"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[8, 16, 24, 50]"
+        (page)="onPageChange($event)"
+      ></mat-paginator>
+    </div>
 
-<div class="list">
-  <mat-card class="product-card" *ngFor="let product of displayedProducts">
-    <mat-card-header>
-      <!-- <div mat-card-avatar class="product-header-image" style='background-image: url("{{ product.thumbnail}}");'></div> -->
-      <mat-card-title>{{ product.title }}</mat-card-title>
-      <mat-card-subtitle>{{ product.category }}</mat-card-subtitle>
-    </mat-card-header>
-    <img
-      class="img"
-      mat-card-image
-      src="{{ product.thumbnail }}"
-      alt="Photo of a Shiba Inu"
-    />
-    <mat-card-content class="lower-content">
-      <p>
-        {{ product.description }}
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>${{ product.price }}</button>
-      <button mat-button>In Stock: {{ product.stock }}</button>
-    </mat-card-actions>
-  </mat-card>
-</div>
+    <div class="list">
+      <mat-card class="product-card" *ngFor="let product of displayedProducts">
+        <mat-card-header>
+          <!-- <div mat-card-avatar class="product-header-image" style='background-image: url("{{ product.thumbnail}}");'></div> -->
+          <mat-card-title>{{ product.title }}</mat-card-title>
+          <mat-card-subtitle>{{ product.category }}</mat-card-subtitle>
+        </mat-card-header>
+        <img
+          class="img"
+          mat-card-image
+          src="{{ product.thumbnail }}"
+          alt="Photo of a Shiba Inu"
+        />
+        <mat-card-content class="lower-content">
+          <p>
+            {{ product.description }}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>${{ product.price }}</button>
+          <button mat-button>In Stock: {{ product.stock }}</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </mat-tab>
+  <mat-tab label="Second"> Content 2 </mat-tab>
+  <mat-tab label="Third"> Content 3 </mat-tab>
+</mat-tab-group>
