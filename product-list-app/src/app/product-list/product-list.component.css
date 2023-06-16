@@ -14,10 +14,20 @@
   justify-content: center;
 }
 
+.menu {
+  margin: 0;
+}
+
 .table-cell {
   flex-basis: 25.25%;
   padding: 15px 0px;
   border-bottom: 1px solid #ccc;
+}
+
+html,
+.smooth {
+  scroll-behavior: smooth;
+  overflow: auto;
 }
 
 .product-card {
@@ -26,6 +36,11 @@
   margin: 0 5px; */
   width: 265px;
   /* margin: 10px; */
+  margin: 10px;
+}
+
+.equalities-card {
+  width: 365px;
   margin: 10px;
 }
 mat-card-title {
@@ -56,10 +71,24 @@ mat-card-title {
 }
 
 .card-arrangement {
-  justify-content: space-between;
+  justify-content: space-around;
   display: flex;
   align-items: center;
+  /* margin: 0 10px; */
 }
+
+@media (max-width: 526px) {
+  .card-arrangement {
+    display: block;
+    margin: 10px 10px;
+    text-align: center;
+  }
+  ::ng-deep .mat-chip-list-wrapper {
+    width: 100%;
+    justify-content: center !important;
+  }
+}
+
 /* @media (max-width: 768px) {
   .product-card {
     width: 50%;
@@ -95,4 +124,12 @@ mat-card-title {
 
 .mat-chip.mat-primary:hover {
   background-color: #1565c0;
+}
+
+.mat-mdc-form-field + .mat-mdc-form-field {
+  margin-left: 8px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
 }

@@ -1,17 +1,17 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { ThemePalette } from '@angular/material/core';
 
 interface Product {
-  id: number;
   title: string;
   description: string;
   thumbnail: string;
   category: string;
   stock: string;
   price: number;
+  images: string[];
 }
 
 interface ChipColor {
@@ -35,6 +35,16 @@ export class ProductListComponent implements OnInit {
   pageSize = 8;
   selectedChip!: string;
   value = '';
+  value1: number | undefined;
+  value2: number | undefined;
+  firstProduct: Product | undefined;
+  secondProduct: Product | undefined;
+  firstProductArray: Product | undefined;
+  secondProductArray: Product | undefined;
+  comparisonResult: boolean | undefined;
+  comparisonResultArray: boolean | undefined;
+  datamanipulationresult1: any;
+  datamanipulationresult2: any;
 
   constructor(private http: HttpClient) {
     this.sortedData = this.products.slice();
@@ -48,7 +58,15 @@ export class ProductListComponent implements OnInit {
         this.sortedData = this.products.slice();
         this.searchProducts();
         this.updateDisplayedProducts();
-        console.log(response.products);
+        this.datamanipulation();
+        for (const product of this.products) {
+          const jsonData = {
+            title: product.title,
+            price: product.price,
+            images: product.images,
+          };
+          console.log(JSON.stringify(jsonData));
+        }
       },
       (error) => {
         console.log('Error:', error);
@@ -150,6 +168,81 @@ export class ProductListComponent implements OnInit {
 
   selectChip(chip: string) {
     this.selectedChip = chip;
+  }
+
+  // Equalities section
+  compareProducts(): void {
+    if (this.firstProduct && this.secondProduct) {
+      this.comparisonResult = this.is_equal_object(
+        this.firstProduct,
+        this.secondProduct
+      );
+    } else {
+      this.comparisonResult = undefined;
+    }
+  }
+
+  is_equal_object(obj_1: Product, obj_2: Product) {
+    // Get the keys of both objects
+    const keys_1 = Object.keys(obj_1) as (keyof Product)[];
+    const keys_2 = Object.keys(obj_2) as (keyof Product)[];
+
+    // Check if the number of keys is the same
+    if (keys_1.length !== keys_2.length) {
+      return false;
+    }
+
+    // Compare the values for each key
+    for (let key of keys_1) {
+      if (obj_1[key] !== obj_2[key]) {
+        return false;
+      }
+    }
+
+    // Objects are equal
+    return true;
+  }
+
+  // Array equals
+  is_equal_array(arr_1: any[], arr_2: any[]) {
+    // Example comparison logic
+    if (arr_1.length !== arr_2.length) {
+      return false;
+    }
+    console.log('f', arr_1);
+    for (let i = 0; i < arr_1.length; i++) {
+      if (arr_1[i] !== arr_2[i]) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  compareProductsArray() {
+    if (this.firstProductArray && this.secondProductArray) {
+      this.comparisonResultArray = this.is_equal_array(
+        Object.values(this.firstProductArray),
+        Object.values(this.secondProductArray)
+      );
+    } else {
+      this.comparisonResultArray = undefined;
+    }
+  }
+
+  // Data manipulation
+  datamanipulation() {
+    let array_1 = [1, 2, 3, 4];
+    const array_2 = [1, 2, 3, 4];
+
+    for (let i = 0; i < array_1.length; i++) {
+      array_1[i] = i + 5;
+      array_2[i] = i + 5;
+    }
+    this.datamanipulationresult1 = array_1;
+    this.datamanipulationresult2 = array_2;
+    console.log(array_1); // Output: [5, 6, 7, 8]
+    console.log(array_2); // Output: [5, 6, 7, 8]
   }
 }
 
